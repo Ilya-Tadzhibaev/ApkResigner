@@ -8,29 +8,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public final class KeystoreFile {
-	
+
 	private static boolean isKeystoreFileExists;
 	private static boolean toOpenDialog;
 	private static final String filePath = System.getProperty("user.dir") + File.separator + "keystore_path.txt";
-	
+
 	private static String KeystorePath;
-	
-	public static void isKeystoreExists(){	
-		
+
+	public static void isKeystoreExists() {
+
 		KeystoreFile.setKeystoreFileExists((new File(filePath).exists() == true) ? true : false);
-		
+
 	}
-	
-	public static void ReadKeystorePath(){
-		
+
+	public static void ReadKeystorePath() {
+
 		try {
 			BufferedReader pathReader = new BufferedReader(new FileReader(filePath));
 			String path = pathReader.readLine();
-			if (path != null ){
-				if (new File(path).exists()){
+			if (path != null) {
+				if (new File(path).exists()) {
 					KeystoreFile.setToOpenDialog(false);
-					
-					if (!path.equalsIgnoreCase(KeystoreFile.getKeystorePath())){
+
+					if (!path.equalsIgnoreCase(KeystoreFile.getKeystorePath())) {
 						KeystoreFile.setKeystorePath(path);
 						LogUtils.newLine("Path to keystore is set to: " + path);
 						LogUtils.newLine("If you want to modify a path, delete " + filePath);
@@ -38,7 +38,7 @@ public final class KeystoreFile {
 					} else {
 						LogUtils.newLine("Path is already set");
 					}
-					
+
 				} else {
 					LogUtils.newLine("Path is invalid. Choose another file");
 					KeystoreFile.setToOpenDialog(true);
@@ -48,7 +48,7 @@ public final class KeystoreFile {
 				KeystoreFile.setToOpenDialog(true);
 			}
 			pathReader.close();
-			
+
 		} catch (FileNotFoundException e) {
 			LogUtils.newLine("Keystore file not found. Open Keystore file once again");
 			KeystoreFile.setToOpenDialog(true);
@@ -56,27 +56,26 @@ public final class KeystoreFile {
 			LogUtils.newLine("Something gone wrong");
 			KeystoreFile.setToOpenDialog(true);
 		}
-		
+
 	}
-	
-	public static void writeKeystorePathToFile(File file){
-		
-		
-			try {
-				PrintWriter writeKeystorePath = new PrintWriter(filePath);
-				writeKeystorePath.write(file.getAbsolutePath());
-				KeystoreFile.setKeystorePath(file.getAbsolutePath());
-				LogUtils.newLine("File created: " + filePath);
-				LogUtils.newLine("Path to keystore is set to: " + file.getAbsolutePath());
-				KeystoreFile.setToOpenDialog(false);
-				writeKeystorePath.close();
-			} catch (FileNotFoundException e1) {
-				LogUtils.newLine("can't create file");
-				KeystoreFile.setToOpenDialog(true);
-			}
-		
+
+	public static void writeKeystorePathToFile(File file) {
+
+		try {
+			PrintWriter writeKeystorePath = new PrintWriter(filePath);
+			writeKeystorePath.write(file.getAbsolutePath());
+			KeystoreFile.setKeystorePath(file.getAbsolutePath());
+			LogUtils.newLine("File created: " + filePath);
+			LogUtils.newLine("Path to keystore is set to: " + file.getAbsolutePath());
+			KeystoreFile.setToOpenDialog(false);
+			writeKeystorePath.close();
+		} catch (FileNotFoundException e1) {
+			LogUtils.newLine("can't create file: " + e1);
+			KeystoreFile.setToOpenDialog(true);
+		}
+
 	}
-	
+
 	public static String getKeystorePath() {
 		return KeystorePath;
 	}

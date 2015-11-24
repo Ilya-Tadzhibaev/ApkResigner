@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public final class AlignPlusPSWD {
-	
+
 	private static boolean isFileExists;
 	private static final String filePath = System.getProperty("user.dir") + File.separator + "1.txt";
-	
-	public static void createNewIfNotPresented(){
-		
-		if (!AlignPlusPSWD.isFileExists()){
+
+	public static void createNewIfNotPresented() {
+
+		if (!AlignPlusPSWD.isFileExists()) {
 			try {
 				PrintWriter fileTXT = new PrintWriter(filePath);
 				LogUtils.newLine("File created:" + filePath);
@@ -25,33 +25,32 @@ public final class AlignPlusPSWD {
 			} catch (FileNotFoundException e1) {
 				LogUtils.newLine("can't create file");
 			}
-			
+
 		} else {
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(filePath));
-				
+
 				String aliasName = br.readLine();
 				String pswd = br.readLine();
-				if (aliasName != null){
+				if (aliasName != null) {
 					FileUtils.setAliasName(aliasName);
 				}
-				if (pswd != null){
+				if (pswd != null) {
 					FileUtils.setPswd(pswd);
 				}
-				
-				
+
 				br.close();
 			} catch (FileNotFoundException e) {
 				LogUtils.newLine("Something gone wrong");
 			} catch (IOException e) {
 				LogUtils.newLine("alias_name or password are incorrect or absent. Please, fill the file correctly");
-				
+
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	public static boolean isFileExists() {
 		return isFileExists;
 	}
@@ -60,5 +59,4 @@ public final class AlignPlusPSWD {
 		AlignPlusPSWD.isFileExists = isFileExists;
 	}
 
-	
 }
